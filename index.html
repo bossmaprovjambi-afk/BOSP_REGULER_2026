@@ -26,12 +26,11 @@
       padding: 20px;
       position: fixed;
       top: 0;
-      left: -220px;
+      left: 0; /* langsung terbuka */
       height: 100%;
       transition: left 0.3s ease;
       z-index: 1000;
     }
-    .sidebar.active { left: 0; }
 
     .logo {
       text-align: center;
@@ -81,17 +80,6 @@
       transform: scale(1.05);
     }
 
-    /* Toggle Button */
-    .toggle-btn {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #0072ff;
-      z-index: 1100;
-    }
-
     /* Main Content */
     .content {
       flex: 1;
@@ -100,7 +88,6 @@
       transition: margin-left 0.3s ease;
       width: 100%;
     }
-    .content.full { margin-left: 0; }
 
     .topbar {
       display: flex;
@@ -194,13 +181,9 @@
   </style>
 </head>
 <body>
-  <!-- Toggle Button -->
-  <div class="toggle-btn">☰</div>
-
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">
-      <!-- Ganti src dengan nama file logo kamu -->
       <img src="logo-jambi.png" alt="Logo Jambi">
       <h2>Sepucuk Jambi Sembilan Lurah</h2>
     </div>
@@ -219,7 +202,7 @@
   </aside>
 
   <!-- Main Content -->
-  <main class="content full">
+  <main class="content">
     <header class="topbar">
       <div class="profile">
         <div class="avatar">YN</div>
@@ -252,9 +235,14 @@
   </main>
 
   <script>
-    // Sidebar toggle
-    const toggleBtn = document.querySelector(".toggle-btn");
-    const sidebar = document.querySelector(".sidebar");
-    const content = document.querySelector(".content");
-
-    toggleBtn.addEventListener("click",
+    // Animasi slide-in untuk card & stat
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".card, .stat").forEach((el, i) => {
+        setTimeout(() => {
+          el.classList.add("show");
+        }, i * 200);
+      });
+    });
+  </script>
+</body>
+</html>
