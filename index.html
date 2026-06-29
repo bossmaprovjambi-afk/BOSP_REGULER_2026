@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Bossma</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2 class="logo">Logo Here</h2>
+      <ul class="menu">
+        <li>🏠 Dashboard</li>
+        <li>💬 Messages</li>
+        <li>📊 Report</li>
+        <li>⚙️ Setting</li>
+        <li>🔒 Privacy</li>
+        <li>🧩 Configuration</li>
+      </ul>
+      <div class="bottom">
+        <button class="mode-btn">🌙 Light Mode</button>
+        <button class="logout">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <header class="topbar">
+        <div class="profile">
+          <div class="avatar">YN</div>
+          <div>
+            <h3>Your Name</h3>
+            <p>WELCOME TO DASHBOARD</p>
+          </div>
+        </div>
+        <button class="download">⬇️ Download Report</button>
+      </header>
+
+      <section class="cards">
+        <div class="card orange">Total Project<br><span>30</span></div>
+        <div class="card blue">Total Tasks<br><span>210</span></div>
+        <div class="card purple">Members<br><span>86</span></div>
+      </section>
+
+      <section class="charts">
+        <canvas id="lineChart"></canvas>
+        <canvas id="pieChart"></canvas>
+      </section>
+
+      <section class="stats">
+        <div class="stat">
+          <h4>Profit</h4>
+          <p>💰 $850.00</p>
+          <span>+45%</span>
+        </div>
+        <div class="stat">
+          <h4>Total Payments</h4>
+          <p>💵 $550.00</p>
+          <span>Tax 5%</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
