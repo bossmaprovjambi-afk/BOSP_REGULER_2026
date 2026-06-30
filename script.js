@@ -1,4 +1,4 @@
-// Link CSV resmi dari publikasi web Google Sheet kamu
+// Link CSV resmi dari publikasi web Google Sheet Anda
 const csvUrl = "https://google.com";
 
 function updateClock() {
@@ -7,7 +7,7 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 
-// Parser CSV anti-error tingkat pro
+// Parser CSV handal standar industri
 function parseCSV(text) {
   let lines = [];
   let row = [""];
@@ -29,7 +29,7 @@ function parseCSV(text) {
       row[row.length - 1] += c;
     }
   }
-  if (row.length > 1 || row[0] !== "") {
+  if (row.length > 1 || row !== "") {
     lines.push(row);
   }
   return lines;
@@ -51,29 +51,28 @@ async function AmbilDataBospJambi() {
     for (let i = 0; i < rows.length; i++) {
       const col = rows[i];
 
-      // PENGAMAN 1: Lewati baris kosong atau baris judul atas yang pendek agar tidak mbuat patah kode
+      // PENGAMAN 1: Lewati jika baris kosong atau datanya rusak
       if (!col || col.length < 10) continue;
-      if (!col[1] || !col[2]) continue; // Wajib ada kolom NPSN dan Nama Sekolah
       
-      const npsn = col[1].replace(/"/g, '').trim();
-      const namaSekolah = col[2].replace(/"/g, '').trim();
+      // Mengambil nilai kolom dengan fallback teks kosong aman
+      const npsn = col[1] ? col[1].replace(/"/g, '').trim() : "";
+      const namaSekolah = col[2] ? col[2].replace(/"/g, '').trim() : "";
 
-      // PENGAMAN 2: Lewati baris nama-nama header tabel asli spreadsheet
-      if (namaSekolah.toUpperCase() === "NAMA SEKOLAH" || npsn.toUpperCase() === "NPSN" || namaSekolah.toUpperCase().includes("LAPORAN")) {
+      // PENGAMAN 2: Lewati baris header bawaan agar kata judul kolom tidak ikut masuk
+      if (!namaSekolah || namaSekolah.toUpperCase() === "NAMA SEKOLAH" || npsn.toUpperCase() === "NPSN" || namaSekolah.toUpperCase().includes("LAPORAN")) {
         continue;
       }
 
       totalSekolahCount++;
       
-      // PEMETAAN DATA UTAMA (Melompati kolom E/Kecamatan di indeks ke-4)
+      // Sesuai Permintaan: Kolom E (Kecamatan), G (Nama Kepsek), dan H (No HP) langsung diabaikan / tidak dimasukkan ke variabel tabel web
       const statusSekolah = col[3] ? col[3].replace(/"/g, '').trim() : "Negeri"; 
-      const kabupaten = col[5] ? col[5].replace(/"/g, '').trim() : "Provinsi Jambi"; // Kolom F/Kabupaten berada di indeks ke-5
+      const kabupaten = col[5] ? col[5].replace(/"/g, '').trim() : "Provinsi Jambi"; 
 
       let checkedMonthsHtml = "";
       let totalSudahKirimBulan = 0;
 
-      // LOOP MATRIKS 12 BULAN LENGKAP (Melompati kolom G/Nama Kepsek dan H/No HP di indeks 6 & 7)
-      // Kolom Januari dimulai tepat dari indeks ke-8 (Kolom I) sampai indeks ke-19 (Kolom T)
+      // LOOP MATRIKS 12 BULAN: Membaca dari indeks 8 (Kolom I / Januari) sampai indeks 19 (Kolom T / Desember)
       for (let m = 8; m <= 19; m++) {
         const statusBulan = col[m] ? col[m].toUpperCase() : "";
         
@@ -104,13 +103,13 @@ async function AmbilDataBospJambi() {
       tbody.appendChild(tr);
     }
 
-    // Suntikkan Angka Hasil Rekapitulasi Akhir ke Dasbor Atas
+    // Mengisi Kartu Statistik Atas secara Kumulatif
     document.getElementById('totalSekolah').innerText = totalSekolahCount;
     document.getElementById('lengkapSekolah').innerText = lengkapCount;
     document.getElementById('belumLengkapSekolah').innerText = belumLengkapCount;
     document.getElementById('persenSelesai').innerText = totalSekolahCount > 0 ? ((lengkapCount / totalSekolahCount) * 100).toFixed(1) + "%" : "0%";
 
-    // Tampilkan tabel murni, matikan loading
+    // Tampilkan tabel utama
     document.getElementById('tableLoading').style.display = "none";
     document.getElementById('mainTable').style.display = "table";
 
