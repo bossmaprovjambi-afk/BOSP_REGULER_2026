@@ -86,7 +86,7 @@
         <div class="brand-title">
           <h1>Dashboard Laporan BOSP Reguler SMA</h1>
           <h2>Provinsi Jambi Tahun 2026</h2>
-          <p>Update terakhir: 30/6/2026, 11.24.15</p>
+          <p id="liveClock">Memuat waktu...</p>
           
           <div class="action-buttons">
             <button class="btn">Lihat Rekap Kabupaten</button>
@@ -100,22 +100,23 @@
         <p>SELAMAT DATANG di Web Pemantauan Laporan BOSP REGULER SMA Tahun 2026 Bidang Pembinaan SMA Dinas Pendidikan Provinsi Jambi</p>
       </div>
 
+      <!-- Kotak Angka Rekap Otomatis -->
       <section class="summary-grid">
         <div class="summary-card">
           <span class="card-label">Total Sekolah</span>
-          <span class="card-value text-slate">251</span>
+          <span class="card-value text-slate" id="totalSekolah">0</span>
         </div>
         <div class="summary-card">
           <span class="card-label">Lengkap 12/12</span>
-          <span class="card-value text-green">1</span>
+          <span class="card-value text-green" id="lengkapSekolah">0</span>
         </div>
         <div class="summary-card">
           <span class="card-label">Belum Lengkap</span>
-          <span class="card-value text-red">250</span>
+          <span class="card-value text-red" id="belumLengkapSekolah">0</span>
         </div>
         <div class="summary-card">
           <span class="card-label">% Selesai</span>
-          <span class="card-value text-blue">0.4%</span>
+          <span class="card-value text-blue" id="persenSelesai">0%</span>
         </div>
       </section>
 
@@ -125,8 +126,12 @@
         </div>
       </section>
 
+      <!-- Tempat Merender Tabel Otomatis -->
       <section class="table-section">
-        <table class="bosp-table">
+        <div id="tableLoading" style="padding: 20px; text-align: center; color: #64748b; font-weight: 600;">
+          <i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan ke Google Sheet...
+        </div>
+        <table class="bosp-table" id="mainTable" style="display: none;">
           <thead>
             <tr>
               <th>No</th>
@@ -146,50 +151,11 @@
               <th class="col-month">O</th>
               <th class="col-month">N</th>
               <th class="col-month">D</th>
-              <th style="text-align: center;">STATUS</th>
+              <th style="text-align: center; width: 90px;">STATUS</th>
             </tr>
           </thead>
           <tbody id="tableBody">
-            <tr>
-              <td>1</td>
-              <td style="color: #64748b;">10502394</td>
-              <td class="school-name">SMAN 1 SUNGAI PENUH</td>
-              <td>Negeri</td>
-              <td>Kota Sungai Penuh</td>
-              <td><i class="fa-solid fa-square-check icon-green"></i></td>
-              <td><i class="fa-solid fa-square-check icon-green"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td class="text-center font-bold">2/12</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td style="color: #64748b;">70034217</td>
-              <td class="school-name">SMA Nurul Khoir Jambi</td>
-              <td>Swasta</td>
-              <td>Kota Jambi</td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
-              <td class="text-center font-bold">0/12</td>
-            </tr>
+            <!-- Data baris disuntik otomatis oleh JavaScript -->
           </tbody>
         </table>
       </section>
@@ -197,7 +163,7 @@
 
   </div>
 
-  <!-- Menghubungkan ke file script.js eksternal -->
+  <!-- Hubungkan ke file logikanya -->
   <script src="script.js"></script>
 </body>
 </html>
