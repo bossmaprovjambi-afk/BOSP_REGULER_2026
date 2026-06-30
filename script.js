@@ -1,7 +1,7 @@
-// Mengubah link spreadsheet kamu menjadi format pembacaan jalur data CSV eksternal
-const csvUrl = "https://google.com";
+// Menggunakan jalur API publik Google Sheets agar pembacaan sel kilat dan anti-loading lama
+const spreadsheetId = "1vTNn0ZAz-vXzFtyT2PTWH05V-RjZtHI4AK3VfOhqOc0bAxo2X_kp21i96tBBjMs04_XWs_0-Sa_nCSc"; 
+const jsonUrl = `https://google.com{spreadsheetId}/gviz/tq?tqx=out:json&gid=147011660`;
 
-// Menampilkan Jam Waktu Live Real-Time
 function updateClock() {
   const now = new Date();
   document.getElementById('liveClock').innerText = `Update terakhir: ${now.toLocaleDateString('id-ID')}, ${now.toLocaleTimeString('id-ID')}`;
@@ -10,37 +10,40 @@ setInterval(updateClock, 1000);
 
 async function muatDataGoogleSheet() {
   try {
-    const response = await fetch(csvUrl);
-    const textData = await response.text();
+    const response = await fetch(jsonUrl);
+    const rawText = await response.text();
     
-    // Parsing text CSV menjadi baris array matriks
-    const rows = textData.split("\n").map(row => {
-      // Mengatasi pemisah koma di dalam tanda kutip teks nama sekolah
-      return row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(",");
-    });
+    // Membersihkan teks bungkus Google API agar menjadi format JSON murni
+    const jsonString = rawText.substring(rawText.indexOf("{"), rawText.lastIndexOf("}") + 1);
+    const json = JSON.parse(jsonString);
+    const rows = json.table.rows;
 
     const tbody = document.getElementById('tableBody');
-    tbody.innerHTML = ""; // Bersihkan baris dummy awal
+    tbody.innerHTML = ""; 
 
     let totalSekolahCount = 0;
     let lengkapCount = 0;
     let belumLengkapCount = 0;
 
-    // Mulai loop data pada baris ke-3 (indeks 2) untuk mengabaikan judul tabel spreadsheet
-    for (let i = 2; i < rows.length; i++) {
-      const col = rows[i].map(c => c.replace(/"/g, '').trim()); // Bersihkan tanda petik teks
+    // Loop membaca baris data (Dimulai dari baris ke-2 / indeks 1 agar judul baris atas terlewati)
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].c;
+      
+      // Memastikan Kolom B (NPSN) dan Kolom C (Nama Sekolah) tidak kosong
+      if (cells && cells[1] && cells[2]) {
+        const npsn = cells[1].v ? cells[1].v.toString() : "";
+        const namaSekolah = cells[2].v ? cells[2].v.toString() : "";
+        const statusSekolah = cells[3] && cells[3].v ? cells[3].v.toString() : "Negeri";
+        const kabupaten = cells[4] && cells[4].v ? cells[4].v.toString() : "Provinsi Jambi";
 
-      // Validasi kolom memastikan data NPSN dan Nama Sekolah ada
-      if (col[1] && col[2]) {
         totalSekolahCount++;
-        
         let checkedMonthsHtml = "";
         let totalSudahKirimBulan = 0;
 
-        // Membaca 12 kolom bulan (Kolom G sampai R atau indeks 6 sampai 17)
+        // Membaca status bulan dari Kolom G sampai R (Indeks cell 6 sampai 17)
         for (let m = 6; m <= 17; m++) {
-          const statusBulan = col[m] ? col[m].toUpperCase() : "";
-          if (statusBulan.includes("SUDAH")) {
+          const valBulan = cells[m] && cells[m].v ? cells[m].v.toString().toUpperCase() : "";
+          if (valBulan.includes("SUDAH")) {
             checkedMonthsHtml += `<td><i class="fa-solid fa-square-check icon-green"></i></td>`;
             totalSudahKirimBulan++;
           } else {
@@ -48,21 +51,19 @@ async function muatDataGoogleSheet() {
           }
         }
 
-        // Tentukan kelengkapan data 12 bulan penuh
         if (totalSudahKirimBulan === 12) {
           lengkapCount++;
         } else {
           belumLengkapCount++;
         }
 
-        // Susun baris HTML untuk disuntikkan ke dalam tabel web
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${totalSekolahCount}</td>
-          <td style="color: #64748b;">${col[1]}</td>
-          <td class="school-name">${col[2]}</td>
-          <td>${col[3] || 'Negeri'}</td>
-          <td>${col[4] || 'Provinsi Jambi'}</td>
+          <td style="color: #64748b;">${npsn}</td>
+          <td class="school-name">${namaSekolah}</td>
+          <td>${statusSekolah}</td>
+          <td>${kabupaten}</td>
           ${checkedMonthsHtml}
           <td class="text-center font-bold">${totalSudahKirimBulan}/12</td>
         `;
@@ -70,29 +71,28 @@ async function muatDataGoogleSheet() {
       }
     }
 
-    // Suntikkan angka total kalkulasi kumulatif ke kartu rekapitulasi atas
+    // Update Angka Rekap Utama Atas
     document.getElementById('totalSekolah').innerText = totalSekolahCount;
     document.getElementById('lengkapSekolah').innerText = lengkapCount;
     document.getElementById('belumLengkapSekolah').innerText = belumLengkapCount;
-    document.getElementById('persenSelesai').innerText = ((lengkapCount / totalSekolahCount) * 100).toFixed(1) + "%";
+    document.getElementById('persenSelesai').innerText = totalSekolahCount > 0 ? ((lengkapCount / totalSekolahCount) * 100).toFixed(1) + "%" : "0%";
 
-    // Matikan indikator loading dan nyalakan tabel
+    // Matikan Loading, Tampilkan Tabel Utama
     document.getElementById('tableLoading').style.display = "none";
     document.getElementById('mainTable').style.display = "table";
 
   } catch (err) {
-    document.getElementById('tableLoading').innerHTML = `<span style="color:#dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Gagal Memuat Data. Pastikan opsi 'Publish to Web' di Google Sheet Anda aktif.</span>`;
+    document.getElementById('tableLoading').innerHTML = `<span style="color:#dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Gagal terhubung. Pastikan setelan share spreadsheet Anda sudah 'Siapa saja yang memiliki link'.</span>`;
     console.error(err);
   }
 }
 
-// Jalankan sistem saat browser selesai dimuat
 window.onload = () => {
   updateClock();
   muatDataGoogleSheet();
 };
 
-// Logika Filter Kolom Pencarian Sekolah Atas
+// Fungsi Kolom Pencarian Aktif
 document.getElementById('searchInput').addEventListener('keyup', function() {
   const filter = this.value.toLowerCase();
   const rows = document.querySelectorAll('#tableBody tr');
