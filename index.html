@@ -19,7 +19,7 @@
     .profile-img-wrapper {
       display: none !important;
     }
-    /* Kotak Panel Grafik 3D */
+    /* Kotak Panel Grafik */
     .chart-panel {
       background-color: #ffffff;
       border-radius: 12px;
@@ -31,7 +31,15 @@
     .chart-container {
       position: relative;
       width: 100%;
-      height: 380px;
+      height: 450px;
+    }
+    /* Pesan Loading */
+    .loading-text {
+      text-align: center;
+      color: #64748b;
+      font-size: 16px;
+      font-weight: 600;
+      padding-top: 180px;
     }
   </style>
 </head>
@@ -41,7 +49,6 @@
     
     <!-- === START SIDEBAR === -->
     <aside class="sidebar">
-      
       <!-- Bagian Logo Provinsi Jambi -->
       <div class="sidebar-logo">
         <img src="logo-jambi.png" alt="Logo Provinsi Jambi">
@@ -95,7 +102,7 @@
             <a href="#">
               <span class="menu-link-content">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
-                <span>Print Laporan</span>
+                <span>Stats</span>
               </span>
             </a>
           </li>
@@ -109,91 +116,111 @@
           <span>Sign out</span>
         </a>
       </div>
-
     </aside>
     <!-- === END SIDEBAR === -->
 
-
     <!-- === START AREA KONTEN UTAMA === -->
     <main class="main-content">
-      
-      <!-- Header Dashboard -->
       <header class="content-header" style="margin-bottom: 20px;">
         <div>
-          <h1>Visualisasi 3D Laporan BOSP 2026</h1>
-          <p>Grafik dimensional pemantauan pagu, realisasi anggaran, dan sisa dana sekolah di Provinsi Jambi.</p>
+          <h1>Grafik Real-Time Status Kirim BOSP 2026</h1>
+          <p>Visualisasi otomatis berdasarkan data live Lembar Kerja Google Spreadsheet.</p>
         </div>
       </header>
 
-      <!-- Panel Grafik 3D Berdimensi -->
       <section class="chart-panel">
-        <div class="chart-container">
-          <canvas id="bosp3dChart"></canvas>
+        <div id="loadingMessage" class="loading-text">Menghubungkan & Membaca Data Google Sheet...</div>
+        <div class="chart-container" id="chartWrapper" style="display: none;">
+          <canvas id="bospLiveChart"></canvas>
         </div>
       </section>
-
     </main>
     <!-- === END AREA KONTEN UTAMA === -->
 
   </div>
 
-  <!-- Script Logika Grafik Berdimensi -->
+  <!-- SCRIPT UTAMA UNTUK MENARIK DATA SPREADSHEET DAN MEMBUAT GRAFIK 3D -->
   <script>
-    const ctx = document.getElementById('bosp3dChart').getContext('2d');
-    
-    // Inisialisasi Chart baru dengan manipulasi visual bayangan kedalaman (3D effect)
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['SMAN 1 Jambi', 'SMAN 3 Muaro Jambi', 'SMAN 5 Bungo', 'SMAN 2 Tebo', 'SMAN 1 Sarolangun'],
-        datasets: [
-          {
-            label: 'Dimensi 1: Pagu Anggaran (Rp)',
-            data: [140000000, 115000000, 95000000, 120000000, 88000000],
-            backgroundColor: '#1e3a8a', // Biru Tua
-            borderRadius: 6,
-            borderSkipped: false
-          },
-          {
-            label: 'Dimensi 2: Realisasi Anggaran (Rp)',
-            data: [95000000, 80000000, 95000000, 60000000, 45000000],
-            backgroundColor: '#eab308', // Emas
-            borderRadius: 6,
-            borderSkipped: false
-          },
-          {
-            label: 'Dimensi 3: Sisa Dana BOS (Rp)',
-            data: [45000000, 35000000, 0, 60000000, 43000000],
-            backgroundColor: '#ef4444', // Merah
-            borderRadius: 6,
-            borderSkipped: false
+    // Link konversi publik khusus format teks CSV
+    const csvUrl = "https://google.com";
+
+    async function AmbilDataDanBuatGrafik() {
+      try {
+        const response = await fetch(csvUrl);
+        const dataTeks = await response.text();
+        
+        // Memecah baris data tabel CSV
+        const baris = dataTeks.split("\n").map(row => row.split(","));
+        
+        const namaSekolah = [];
+        const dataSudahKirim = [];
+        const dataBelumKirim = [];
+
+        // Loop membaca baris data sekolah (dimulai dari baris ke-3 spreadsheet agar header tidak terbaca)
+        // Membatasi 10 sekolah pertama agar visual grafik batang terkendali dan rapi
+        for (let i = 2; i < Math.min(baris.length, 12); i++) {
+          const kolom = baris[i];
+          if (kolom && kolom[1]) { 
+            namaSekolah.push(kolom[1].replace(/"/g, '')); // Nama Sekolah di Kolom B
+            
+            // Simulasi hitung data berdasarkan tanda centang/warna di lembar kerja
+            // Kolom Januari-Desember kita hitung bulan yang sudah berstatus 'SUDAH' vs 'BELUM'
+            let sudah = 0;
+            let belum = 0;
+            for(let k = 6; k <= 17; k++) {
+              if(kolom[k] && kolom[k].toUpperCase().includes("SUDAH")) { sudah++; } else { belum++; }
+            }
+            dataSudahKirim.push(sudah);
+            dataBelumKirim.push(belum);
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: { font: { weight: 'bold', family: 'sans-serif' } }
-          }
-        },
-        scales: {
-          x: {
-            grid: { display: false }
+        }
+
+        // Hilangkan teks loading, tampilkan kanvas grafik
+        document.getElementById("loadingMessage").style.display = "none";
+        document.getElementById("chartWrapper").style.display = "block";
+
+        // Gambar Grafik Multi-Dimensi dengan efek tumpukan bayangan
+        const ctx = document.getElementById('bospLiveChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: namaSekolah,
+            datasets: [
+              {
+                label: 'Dimensi 1: Total Bulan Sudah Kirim',
+                data: dataSudahKirim,
+                backgroundColor: '#1e3a8a', // Biru Instansi
+                borderRadius: 5
+              },
+              {
+                label: 'Dimensi 2: Total Bulan Belum Lengkap',
+                data: dataBelumKirim,
+                backgroundColor: '#ef4444', // Merah
+                borderRadius: 5
+              }
+            ]
           },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return 'Rp ' + value.toLocaleString('id-ID');
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 12, // Maksimal 12 bulan dalam setahun
+                ticks: { stepSize: 2 }
               }
             }
           }
-        }
+        });
+
+      } catch (error) {
+        document.getElementById("loadingMessage").innerText = "Gagal memuat data. Pastikan opsi 'Publish to web' di Google Sheet sudah aktif.";
+        console.error(error);
       }
-    });
+    }
+
+    // Jalankan penarikan data saat web dibuka
+    window.onload = AmbilDataDanBuatGrafik;
   </script>
 
   <script src="script.js"></script>
