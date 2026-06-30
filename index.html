@@ -7,7 +7,6 @@
   <!-- Menghubungkan ke file CSS eksternal -->
   <link rel="stylesheet" href="style.css">
   
-  <!-- KODE TAMBAHAN LANGSUNG UNTUK MENGHILANGKAN IKON DAN MERAPIKAN JARAK -->
   <style>
     /* Menyusutkan jarak atas agar teks instansi naik pas di bawah logo */
     .profile-section {
@@ -16,6 +15,21 @@
     /* Memastikan area pembungkus gambar profil lama tidak memakan ruang halaman */
     .profile-img-wrapper {
       display: none !important;
+    }
+    /* Pembungkus Iframe Responsif agar spreadsheet pas dengan ukuran layar */
+    .sheet-container {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 160px); /* Menyesuaikan tinggi dengan ruang kosong dasbor */
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .sheet-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
@@ -108,87 +122,17 @@
     <main class="main-content">
       
       <!-- Header Dashboard -->
-      <header class="content-header">
+      <header class="content-header" style="margin-bottom: 20px;">
         <div>
-          <h1>Beranda Utama</h1>
-          <p>Selamat datang di sistem manajemen data Bidang Pembinaan SMA.</p>
+          <h1>Master - LAPORAN REALISASI BOSP 2026</h1>
+          <p>Halaman pemantauan realisasi anggaran dan status pengiriman data sekolah.</p>
         </div>
-        <div class="current-date">Selasa, 30 Juni 2026</div>
       </header>
 
-      <!-- Grid Kartu Statistik -->
-      <section class="stats-grid">
-        
-        <div class="stat-card">
-          <div class="stat-icon blue">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.49 12.01L12 15.56l6.51-3.55-6.51-3.56-6.51 3.56z"/></svg>
-          </div>
-          <div class="stat-info">
-            <h3>142</h3>
-            <p>Total SMA Terdata</p>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon orange">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M2-2v20h20V2H2zm18 16H4V4h16v12zm-3-5h-4V7h4v4z"/></svg>
-          </div>
-          <div class="stat-info">
-            <h3>94.8%</h3>
-            <p>Laporan BKU Selesai</p>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon green">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-          </div>
-          <div class="stat-info">
-            <h3>1,204</h3>
-            <p>Berkas RKAS Disetujui</p>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Panel Tabel Data Dokumentasi -->
-      <section class="data-panel">
-        <div class="panel-header">
-          <h2>Aktivitas Pengiriman Berkas Terbaru</h2>
-        </div>
-        <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Nama Sekolah</th>
-                <th>Jenis Dokumen</th>
-                <th>Tanggal Masuk</th>
-                <th>Status Validasi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>SMAN 1 Kota Jambi</strong></td>
-                <td>Laporan BKU Tahap I</td>
-                <td>29 Juni 2026</td>
-                <td><span class="badge success">Selesai</span></td>
-              </tr>
-              <tr>
-                <td><strong>SMAN 3 Muaro Jambi</strong></td>
-                <td>RKAS Perubahan 2026</td>
-                <td>28 Juni 2026</td>
-                <td><span class="badge warning">Diproses</span></td>
-              </tr>
-              <tr>
-                <td><strong>SMAN 5 Bungo</strong></td>
-                <td>Sisa Dana BOS Reguler</td>
-                <td>25 Juni 2026</td>
-                <td><span class="badge success">Selesai</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <!-- Container Embed Google Spreadsheet Publik -->
+      <div class="sheet-container">
+        <iframe class="sheet-iframe" src="https://google.com"></iframe>
+      </div>
 
     </main>
     <!-- === END AREA KONTEN UTAMA === -->
