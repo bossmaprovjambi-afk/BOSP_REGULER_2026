@@ -14,7 +14,8 @@ async function AmbilDataBospJambi() {
     const response = await fetch(csvUrl);
     const textData = await response.text();
     
-    const lines = textData.split("\n");
+    // SOLUSI MUTLAK: Mecah baris secara handal anti-patah baik format \n maupun \r\n
+    const lines = textData.match(/[^\r\n]+/g) || [];
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = ""; 
 
@@ -36,12 +37,12 @@ async function AmbilDataBospJambi() {
       const namaSekolah = col[2] ? col[2].trim() : "";
 
       // PENGAMAN 2: Lewati baris header tabel agar kata "NPSN" atau "Nama Sekolah" tidak masuk daftar
-      if (!namaSekolah || namaSekolah.toUpperCase() === "NAMA SEKOLAH" || npsn.toUpperCase() === "NPSN") continue;
+      if (!namaSekolah || namaSekolah.toUpperCase() === "NAMA SEKOLAH" || npsn.toUpperCase() === "NPSN" || namaSekolah.toUpperCase().includes("LAPORAN")) continue;
 
       totalSekolahCount++;
       
       const statusSekolah = col[3] || "Negeri";
-      const kabupaten = col[5] || "Provinsi Jambi";
+      const kabupaten = col[4] || "Provinsi Jambi";
 
       let checkedMonthsHtml = "";
       let totalSudahKirimBulan = 0;
