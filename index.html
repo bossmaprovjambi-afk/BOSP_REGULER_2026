@@ -3,280 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Laporan BOSP Reguler SMA</title>
-  <!-- Pustaka Ikon Font Awesome untuk tanda centang dan jam pasir -->
+  <title>Dashboard BOSP - Dinas Pendidikan Provinsi Jambi</title>
+  <!-- Hubungkan ke berkas CSS eksternal -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Pustaka Ikon Font Awesome Resmi -->
   <link rel="stylesheet" href="https://jsdelivr.net">
-  
-  <style>
-    /* ==========================================================================
-       1. PENGATURAN WARNA DASAR TEMA GELAP (NAVY BLUE DARK MODE)
-       ========================================================================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: #0b1329; /* Biru Gelap Pekat Sesuai Gambar */
-      color: #cbd5e1;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 24px;
-    }
-
-    .dashboard-wrapper {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* ==========================================================================
-       2. TATA LETAK HEADER (PENJINAK LOGO RAKSASA)
-       ========================================================================== */
-    .main-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
-    .header-left {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    /* KUNCI UKURAN LOGO DISINI AGAR TIDAK MERUSAK LAYOUT */
-    .gov-logo {
-      height: 85px !important;
-      width: auto !important;
-      max-width: 100px;
-      object-fit: contain;
-    }
-
-    .brand-text h1 {
-      font-size: 24px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .brand-text h2 {
-      font-size: 16px;
-      font-weight: 500;
-      color: #94a3b8;
-      margin-top: 2px;
-    }
-
-    .brand-text p {
-      font-size: 12px;
-      color: #64748b;
-      margin-top: 4px;
-    }
-
-    /* Barisan Tombol */
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .btn {
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid #334155;
-      background-color: #1e293b;
-      color: #cbd5e1;
-      transition: background-color 0.2s;
-    }
-
-    .btn:hover {
-      background-color: #334155;
-      color: #ffffff;
-    }
-
-    /* Header Kanan (Logo SMA & Icon Sun) */
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .sma-logo-placeholder {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background-color: #111827;
-      padding: 8px 14px;
-      border-radius: 8px;
-    }
-
-    .sma-text {
-      font-size: 24px;
-      font-weight: 900;
-      color: #ffffff;
-      font-style: italic;
-    }
-
-    .motto-text {
-      font-size: 9px;
-      font-weight: 700;
-      color: #fbbf24;
-      line-height: 1.2;
-    }
-
-    .sun-icon {
-      color: #fbbf24;
-      font-size: 18px;
-    }
-
-    /* ==========================================================================
-       3. BANNER SELAMAT DATANG
-       ========================================================================== */
-    .welcome-banner {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      padding: 10px 16px;
-      border-radius: 6px;
-      margin-bottom: 24px;
-    }
-
-    .welcome-banner p {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fbbf24; /* Teks Kuning */
-      letter-spacing: 0.5px;
-    }
-
-    /* ==========================================================================
-       4. KARTU REKAP REKAPITULASI (STATISTIK GRID)
-       ========================================================================== */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .summary-card {
-      background-color: #111c34;
-      border: 1px solid #1e293b;
-      padding: 16px 20px;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .card-label {
-      font-size: 12px;
-      color: #64748b;
-      font-weight: 500;
-    }
-
-    .card-value {
-      font-size: 32px;
-      font-weight: 700;
-    }
-
-    .text-white { color: #ffffff; }
-    .text-green { color: #10b981; }
-    .text-red { color: #ef4444; }
-    .text-blue { color: #3b82f6; }
-
-    /* ==========================================================================
-       5. KOLOM INPUT PENCARIAN
-       ========================================================================== */
-    .search-section {
-      margin-bottom: 24px;
-    }
-
-    .search-box input {
-      width: 100%;
-      background-color: #111c34;
-      border: 1px solid #1e293b;
-      padding: 14px 20px;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .search-box input::placeholder {
-      color: #475569;
-    }
-
-    /* ==========================================================================
-       6. STRUKTUR TABEL BULANAN (DATA MATRIKS)
-       ========================================================================== */
-    .table-section {
-      background-color: #111c34;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-      overflow-x: auto;
-    }
-
-    .bosp-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    .bosp-table th {
-      background-color: #0f172a;
-      color: #94a3b8;
-      padding: 14px 16px;
-      font-weight: 700;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .bosp-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid #1e293b;
-      color: #cbd5e1;
-    }
-
-    .bosp-table tr:hover td {
-      background-color: #1e293b;
-    }
-
-    .school-name {
-      font-weight: 600;
-      color: #ffffff;
-    }
-
-    .col-month {
-      width: 35px;
-      text-align: center;
-      padding: 14px 4px !important;
-    }
-
-    .bosp-table td:nth-child(n+6):nth-child(-n+17) {
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .icon-green { color: #10b981; }  /* Centang Hijau */
-    .icon-orange { color: #ef4444; } /* Silang Merah Sesuai Gambar */
-
-    .text-gray { color: #64748b; }
-    .text-center { text-align: center; }
-    .font-bold { font-weight: 700; }
-  </style>
 </head>
 <body>
 
-  <div class="dashboard-wrapper">
+  <div class="app-container">
     
-    <!-- === HEADER ATAS === -->
-    <header class="main-header">
-      <div class="header-left">
-        <!-- Logo Jambi Dikunci Disini Ukurannya -->
-        <img src="logo-jambi.png" alt="Logo Provinsi Jambi" class="gov-logo">
-        <div class="brand-text">
+    <!-- === SIDEBAR KIRI (TEMA PUTIH ASLI) === -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="logo-jambi.png" alt="Logo Provinsi Jambi">
+      </div>
+      
+      <div class="profile-section">
+        <h2 class="profile-name">DINAS PENDIDIKAN</h2>
+        <h2 class="profile-name" style="margin-top: 1px;">PROVINSI JAMBI</h2>
+        <p class="profile-role">Bidang Pembinaan SMA</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="menu-item active">
+            <a href="#">
+              <span class="menu-link-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>Status Kirim</span>
+              </span>
+              <svg class="arrow-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-link-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <span>Laporan BKU</span>
+              </span>
+              <svg class="arrow-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-link-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <span>Notifications</span>
+              </span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-link-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+                <span>Rkas Awal</span>
+              </span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-link-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
+                <span>Stats</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="signout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+          <span>Sign out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- === KONTEN UTAMA (KANAN - SKEMA DATA PUTIH BERSIH) === -->
+    <main class="main-content">
+      <header class="content-header">
+        <div class="brand-title">
           <h1>Dashboard Laporan BOSP Reguler SMA</h1>
           <h2>Provinsi Jambi Tahun 2026</h2>
           <p>Update terakhir: 30/6/2026, 11.24.15</p>
@@ -287,81 +94,119 @@
             <button class="btn">Lapor RKAS Awal</button>
           </div>
         </div>
+      </header>
+
+      <div class="welcome-banner">
+        <p>SELAMAT DATANG di Web Pemantauan Laporan BOSP REGULER SMA Tahun 2026 Bidang Pembinaan SMA Dinas Pendidikan Provinsi Jambi</p>
       </div>
-      
-      <div class="header-right">
-        <div class="sma-logo-placeholder">
-          <span class="sma-text">SMA</span>
-          <span class="motto-text">MAJU BERSAMA<br>HEBAT SEMUA</span>
+
+      <section class="summary-grid">
+        <div class="summary-card">
+          <span class="card-label">Total Sekolah</span>
+          <span class="card-value text-slate">251</span>
         </div>
-        <div class="sun-icon"><i class="fa-solid fa-sun"></i></div>
-      </div>
-    </header>
+        <div class="summary-card">
+          <span class="card-label">Lengkap 12/12</span>
+          <span class="card-value text-green">1</span>
+        </div>
+        <div class="summary-card">
+          <span class="card-label">Belum Lengkap</span>
+          <span class="card-value text-red">250</span>
+        </div>
+        <div class="summary-card">
+          <span class="card-label">% Selesai</span>
+          <span class="card-value text-blue">0.4%</span>
+        </div>
+      </section>
 
-    <!-- === BANNER SELAMAT DATANG === -->
-    <div class="welcome-banner">
-      <p>SELAMAT DATANG di Web Pemantauan Laporan BOSP REGULER SMA Tahun 2026 Bidang Pembinaan SMA Dinas Pendidikan Provinsi Jambi</p>
-    </div>
+      <section class="search-section">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Cari NPSN, Nama Sekolah, atau Kabupaten...">
+        </div>
+      </section>
 
-    <!-- === GRID KARTU STATISTIK === -->
-    <section class="summary-grid">
-      <div class="summary-card">
-        <span class="card-label">Total Sekolah</span>
-        <span class="card-value text-white">251</span>
-      </div>
-      <div class="summary-card">
-        <span class="card-label">Lengkap 12/12</span>
-        <span class="card-value text-green">1</span>
-      </div>
-      <div class="summary-card">
-        <span class="card-label">Belum Lengkap</span>
-        <span class="card-value text-red">250</span>
-      </div>
-      <div class="summary-card">
-        <span class="card-label">% Selesai</span>
-        <span class="card-value text-blue">0.4%</span>
-      </div>
-    </section>
+      <section class="table-section">
+        <table class="bosp-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>NPSN</th>
+              <th>Nama Sekolah</th>
+              <th>Status</th>
+              <th>Kabupaten</th>
+              <th class="col-month">J</th>
+              <th class="col-month">F</th>
+              <th class="col-month">M</th>
+              <th class="col-month">A</th>
+              <th class="col-month">M</th>
+              <th class="col-month">J</th>
+              <th class="col-month">J</th>
+              <th class="col-month">A</th>
+              <th class="col-month">S</th>
+              <th class="col-month">O</th>
+              <th class="col-month">N</th>
+              <th class="col-month">D</th>
+              <th style="text-align: center;">STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td>1</td>
+              <td style="color: #64748b;">10502394</td>
+              <td class="school-name">SMAN 1 SUNGAI PENUH</td>
+              <td>Negeri</td>
+              <td>Kota Sungai Penuh</td>
+              <td><i class="fa-solid fa-square-check icon-green"></i></td>
+              <td><i class="fa-solid fa-square-check icon-green"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td class="text-center font-bold">2/12</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td style="color: #64748b;">70034217</td>
+              <td class="school-name">SMA Nurul Khoir Jambi</td>
+              <td>Swasta</td>
+              <td>Kota Jambi</td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td><i class="fa-solid fa-square-xmark icon-red"></i></td>
+              <td class="text-center font-bold">0/12</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
 
-    <!-- === INPUT PENCARIAN === -->
-    <section class="search-section">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari NPSN, Nama Sekolah, atau Kabupaten...">
-      </div>
-    </section>
+  </div>
 
-    <!-- === TABEL UTAMA PEMANTAUAN BULANAN === -->
-    <section class="table-section">
-      <table class="bosp-table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>NPSN</th>
-            <th>Nama Sekolah</th>
-            <th>Status</th>
-            <th>Kabupaten</th>
-            <th class="col-month">J</th>
-            <th class="col-month">F</th>
-            <th class="col-month">M</th>
-            <th class="col-month">A</th>
-            <th class="col-month">M</th>
-            <th class="col-month">J</th>
-            <th class="col-month">J</th>
-            <th class="col-month">A</th>
-            <th class="col-month">S</th>
-            <th class="col-month">O</th>
-            <th class="col-month">N</th>
-            <th class="col-month">D</th>
-            <th style="text-align: center;">STATUS</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <tr>
-            <td>1</td>
-            <td class="text-gray">10502394</td>
-            <td class="school-name">SMAN 1 SUNGAI PENUH</td>
-            <td>Negeri</td>
-            <td>Kota Sungai Penuh</td>
-            <td><i class="fa-solid fa-square-check icon-green"></i></td>
-            <td><i class="fa-solid fa-square-check icon-green"></i></td>
-            <td><i class="fa-solid fa-square-xmark icon-orange"></i></td>
+  <!-- Script Logika Pencarian Aktif -->
+  <script>
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
