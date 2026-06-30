@@ -4,14 +4,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard BOSP - Dinas Pendidikan Provinsi Jambi</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://jsdelivr.net">
+  <style>
+    /* ==========================================================================
+       1. SETUP LAYOUT TEMA PUTIH MINIMALIS ASLI KAMU
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #ffffff;
+      color: #334155;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* ==========================================================================
+       2. SIDEBAR KIRI (TEMA PUTIH MODERN)
+       ========================================================================== */
+    .sidebar {
+      width: 270px;
+      max-width: 270px;
+      min-width: 270px;
+      background-color: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px 0;
+      height: 100%;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo {
+      padding: 0 24px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sidebar-logo img {
+      height: 75px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .profile-section {
+      text-align: center;
+      padding: 0 20px;
+      margin-bottom: 25px;
+      margin-top: -5px;
+    }
+
+    .profile-name {
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .profile-role {
+      color: #64748b;
+      font-size: 11px;
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+    }
+
+    .menu-item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 24px;
+      text-decoration: none;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+      border-left: 4px solid transparent;
+    }
+
+    .menu-link-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .arrow-icon {
+      font-size: 9px;
+      color: #cbd5e1;
+    }
+
+    .menu-item.active a {
+      color: #1e3a8a;
+      background-color: #eff6ff;
+      border-left-color: #1e3a8a;
+    }
+
+    /* ==========================================================================
+       3. AREA EMBED GOOGLE SHEET LIVE (KANAN)
+       ========================================================================== */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      background-color: #f8fafc;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sheet-frame-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
 
   <div class="app-container">
     
-    <!-- === SIDEBAR KIRI === -->
+    <!-- SIDEBAR KIRI -->
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="logo-jambi.png" alt="Logo Provinsi Jambi">
@@ -42,104 +178,19 @@
               </span>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="#">
-              <span class="menu-link-content">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                <span>Notifications</span>
-              </span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#">
-              <span class="menu-link-content">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-                <span>Rkas Awal</span>
-              </span>
-            </a>
-          </li>
         </ul>
       </nav>
     </aside>
 
-    <!-- === AREA KONTEN UTAMA === -->
+    <!-- AREA KONTEN UTAMA - MENAMPILKAN SHEET ASLI SECARA ELEGAN -->
     <main class="main-content">
-      <header class="content-header">
-        <div class="brand-title">
-          <h1>Dashboard Laporan BOSP Reguler SMA</h1>
-          <h2>Provinsi Jambi Tahun 2026</h2>
-          <p id="liveClock">Memuat waktu...</p>
-          
-          <div class="action-buttons">
-            <button class="btn">Lihat Rekap Kabupaten</button>
-            <button class="btn">Download Excel</button>
-          </div>
-        </div>
-      </header>
-
-      <div class="welcome-banner">
-        <p>SELAMAT DATANG di Web Pemantauan Laporan BOSP REGULER SMA Tahun 2026 Bidang Pembinaan SMA Dinas Pendidikan Provinsi Jambi</p>
+      <div class="sheet-frame-wrapper">
+        <!-- Menampilkan langsung data spreadsheet publikasimu secara live -->
+        <iframe src="https://google.com"></iframe>
       </div>
-
-      <section class="summary-grid">
-        <div class="summary-card">
-          <span class="card-label">Total Sekolah</span>
-          <span class="card-value text-slate" id="totalSekolah">0</span>
-        </div>
-        <div class="summary-card">
-          <span class="card-label">Lengkap 12/12</span>
-          <span class="card-value text-green" id="lengkapSekolah">0</span>
-        </div>
-        <div class="summary-card">
-          <span class="card-label">Belum Lengkap</span>
-          <span class="card-value text-red" id="belumLengkapSekolah">0</span>
-        </div>
-        <div class="summary-card">
-          <span class="card-label">% Selesai</span>
-          <span class="card-value text-blue" id="persenSelesai">0%</span>
-        </div>
-      </section>
-
-      <section class="search-section">
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="Cari NPSN, Nama Sekolah, atau Kabupaten...">
-        </div>
-      </section>
-
-      <section class="table-section">
-        <div id="tableLoading" style="padding: 20px; text-align: center; color: #64748b; font-weight: 600;">
-          <i class="fa-solid fa-spinner fa-spin"></i> Membaca tabel Google Sheet...
-        </div>
-        <table class="bosp-table" id="mainTable" style="display: none;">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>NPSN</th>
-              <th>Nama Sekolah</th>
-              <th>Status</th>
-              <th>Kabupaten</th>
-              <th class="col-month">J</th>
-              <th class="col-month">F</th>
-              <th class="col-month">M</th>
-              <th class="col-month">A</th>
-              <th class="col-month">M</th>
-              <th class="col-month">J</th>
-              <th class="col-month">J</th>
-              <th class="col-month">A</th>
-              <th class="col-month">S</th>
-              <th class="col-month">O</th>
-              <th class="col-month">N</th>
-              <th class="col-month">D</th>
-              <th style="text-align: center; width: 90px;">STATUS</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </section>
     </main>
 
   </div>
 
-  <script src="script.js"></script>
 </body>
 </html>
