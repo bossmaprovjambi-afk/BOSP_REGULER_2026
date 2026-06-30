@@ -6,6 +6,18 @@
   <title>Dashboard - Dinas Pendidikan Provinsi Jambi</title>
   <!-- Menghubungkan ke file CSS eksternal -->
   <link rel="stylesheet" href="style.css">
+  
+  <!-- KODE TAMBAHAN LANGSUNG UNTUK MENGHILANGKAN IKON DAN MERAPIKAN JARAK -->
+  <style>
+    /* Menyusutkan jarak atas agar teks instansi naik pas di bawah logo */
+    .profile-section {
+      margin-top: -5px !important; 
+    }
+    /* Memastikan area pembungkus gambar profil lama tidak memakan ruang halaman */
+    .profile-img-wrapper {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,13 +31,8 @@
         <img src="logo-jambi.png" alt="Logo Provinsi Jambi">
       </div>
       
-      <!-- Profil Pengguna -->
+      <!-- Profil Pengguna (Sudah Bersih Tanpa Ikon Profil) -->
       <div class="profile-section">
-        <div class="profile-img-wrapper">
-          <svg class="profile-img" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="#1e3a8a"/>
-          </svg>
-        </div>
         <h2 class="profile-name">DINAS PENDIDIKAN</h2>
         <h2 class="profile-name" style="margin-top: 1px;">PROVINSI JAMBI</h2>
         <p class="profile-role">Bidang Pembinaan SMA</p>
