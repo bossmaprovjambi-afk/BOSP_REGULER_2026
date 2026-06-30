@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard BOSP - Dinas Pendidikan Provinsi Jambi</title>
-  <!-- Hubungkan ke berkas CSS eksternal -->
+  <!-- Menghubungkan ke file CSS eksternal -->
   <link rel="stylesheet" href="style.css">
   <!-- Pustaka Ikon Font Awesome Resmi -->
   <link rel="stylesheet" href="https://jsdelivr.net">
@@ -80,7 +80,7 @@
       </div>
     </aside>
 
-    <!-- === KONTEN UTAMA (KANAN - SKEMA DATA PUTIH BERSIH) === -->
+    <!-- === AREA KONTEN UTAMA (KANAN) === -->
     <main class="main-content">
       <header class="content-header">
         <div class="brand-title">
@@ -197,16 +197,7 @@
 
   </div>
 
-  <!-- Script Logika Pencarian Aktif -->
-  <script>
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-      const filter = this.value.toLowerCase();
-      const rows = document.querySelectorAll('#tableBody tr');
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
-      });
-    });
-  </script>
+  <!-- Menghubungkan ke file script.js eksternal -->
+  <script src="script.js"></script>
 </body>
 </html>
