@@ -29,18 +29,19 @@ async function AmbilDataBospJambi() {
       // Pemisah tanda koma berbasis regex cerdas
       const col = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(item => item.replace(/"/g, '').trim());
 
-      // KUNCI AMAN: Jika kolom terlalu pendek (seperti baris judul/merged), langsung lewati!
+      // PENGAMAN 1: Jika kolom terlalu pendek (baris judul merged), langsung lewati
       if (!col || col.length < 5) continue;
       
-      // Ambil kolom NPSN (Indeks 1) dan pastikan berupa angka murni (menyaring judul kolom)
-      const npsn = col[1];
-      if (!npsn || isNaN(npsn)) continue; 
+      const npsn = col[1] ? col[1].trim() : "";
+      const namaSekolah = col[2] ? col[2].trim() : "";
+
+      // PENGAMAN 2: Lewati baris header tabel agar kata "NPSN" atau "Nama Sekolah" tidak masuk daftar
+      if (!namaSekolah || namaSekolah.toUpperCase() === "NAMA SEKOLAH" || npsn.toUpperCase() === "NPSN") continue;
 
       totalSekolahCount++;
       
-      const namaSekolah = col[2] || "-";
       const statusSekolah = col[3] || "Negeri";
-      const kabupaten = col[4] || "Provinsi Jambi";
+      const kabupaten = col[5] || "Provinsi Jambi";
 
       let checkedMonthsHtml = "";
       let totalSudahKirimBulan = 0;
