@@ -1,149 +1,201 @@
-/* ==========================================================================
-   1. PENYETELAN WARNA DASAR TEMA GELAP (NAVY BLUE DARK MODE)
-   ========================================================================== */
+/* --- 1. RESET --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body.dark-theme {
-  background-color: #0b1329; /* Biru Gelap Pekat Sesuai Gambar */
-  color: #cbd5e1;
+body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 24px;
+  background-color: #ffffff;
+  color: #334155;
+  overflow: hidden;
 }
 
-.dashboard-wrapper {
-  max-width: 1400px;
-  margin: 0 auto;
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
-/* ==========================================================================
-   2. TATA LETAK HEADER & TOMBOL AKSI
-   ========================================================================== */
-.main-header {
+/* --- 2. SIDEBAR KIRI --- */
+.sidebar {
+  width: 270px;
+  max-width: 270px;
+  min-width: 270px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 0;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  padding: 0 24px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-logo img {
+  height: 75px;
+  width: auto;
+  object-fit: contain;
+}
+
+.profile-section {
+  text-align: center;
+  padding: 0 20px;
+  margin-bottom: 25px;
+  margin-top: -5px;
+}
+
+.profile-name {
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.profile-role {
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.sidebar-nav {
+  flex: 1;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 24px;
+  text-decoration: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  border-left: 4px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.menu-link-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.arrow-icon {
+  font-size: 9px;
+  color: #cbd5e1;
+}
+
+.menu-item a:hover {
+  color: #1e3a8a;
+  background-color: #f8fafc;
+}
+
+.menu-item.active a {
+  color: #1e3a8a;
+  background-color: #eff6ff;
+  border-left-color: #1e3a8a;
+}
+
+.sidebar-footer {
+  padding: 0 24px;
+}
+
+.signout-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+/* --- 3. AREA KONTEN UTAMA --- */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f8fafc;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.content-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
 }
 
-.header-left {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.gov-logo {
-  height: 95px;
-  width: auto;
-  object-fit: contain;
-}
-
-.brand-text h1 {
+.brand-title h1 {
   font-size: 24px;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 800;
+  color: #0f172a;
 }
 
-.brand-text h2 {
-  font-size: 16px;
-  font-weight: 500;
-  color: #94a3b8;
+.brand-title h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #475569;
   margin-top: 2px;
 }
 
-.brand-text p {
+.brand-title p {
   font-size: 12px;
-  color: #64748b;
+  color: #94a3b8;
   margin-top: 4px;
 }
 
-/* Barisan Tombol */
 .action-buttons {
   display: flex;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid #334155;
-  transition: background-color 0.2s;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-.btn-secondary {
-  background-color: #1e293b;
-  color: #cbd5e1;
+.btn:hover {
+  background-color: #f1f5f9;
 }
 
-.btn-secondary:hover {
-  background-color: #334155;
-  color: #ffffff;
-}
-
-/* Header Kanan (Logo SMA & Icon Sun) */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.sma-logo-placeholder {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #111827;
-  padding: 8px 14px;
-  border-radius: 8px;
-}
-
-.sma-text {
-  font-size: 26px;
-  font-weight: 900;
-  color: #ffffff;
-  font-style: italic;
-}
-
-.motto-text {
-  font-size: 9px;
-  font-weight: 700;
-  color: #fbbf24;
-  line-height: 1.2;
-}
-
-.sun-icon {
-  color: #fbbf24;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-/* ==========================================================================
-   3. BANNER SELAMAT DATANG (RUNNING BACKGROUND)
-   ========================================================================== */
 .welcome-banner {
-  background-color: #1e293b;
-  border: 1px solid #334155;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
   padding: 10px 16px;
   border-radius: 6px;
   margin-bottom: 24px;
 }
 
 .welcome-banner p {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  color: #fbbf24; /* Teks Kuning Sesuai Gambar */
-  letter-spacing: 0.5px;
+  color: #1e40af;
 }
 
-/* ==========================================================================
-   4. KARTU REKAP REKAPITULASI (STATISTIK GRID)
-   ========================================================================== */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -152,8 +204,8 @@ body.dark-theme {
 }
 
 .summary-card {
-  background-color: #111c34; /* Kotak Gelap Dalam */
-  border: 1px solid #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
   padding: 16px 20px;
   border-radius: 8px;
   display: flex;
@@ -164,49 +216,37 @@ body.dark-theme {
 .card-label {
   font-size: 12px;
   color: #64748b;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .card-value {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
 }
 
-/* Pewarnaan Nilai Statistik */
-.text-white { color: #ffffff; }
-.text-green { color: #10b981; }
-.text-red { color: #ef4444; }
-.text-blue { color: #3b82f6; }
+.text-slate { color: #0f172a; }
+.text-green { color: #16a34a; }
+.text-red { color: #dc2626; }
+.text-blue { color: #2563eb; }
 
-/* ==========================================================================
-   5. KOLOM INPUT PENCARIAN
-   ========================================================================== */
 .search-section {
   margin-bottom: 24px;
 }
 
 .search-box input {
   width: 100%;
-  background-color: #111c34;
-  border: 1px solid #1e293b;
-  padding: 14px 20px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 12px 18px;
   border-radius: 8px;
-  color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   outline: none;
 }
 
-.search-box input::placeholder {
-  color: #475569;
-}
-
-/* ==========================================================================
-   6. STRUKTUR TABEL BULANAN (DATA MATRIKS)
-   ========================================================================== */
 .table-section {
-  background-color: #111c34;
+  background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid #1e293b;
+  border: 1px solid #e2e8f0;
   overflow-x: auto;
 }
 
@@ -218,45 +258,29 @@ body.dark-theme {
 }
 
 .bosp-table th {
-  background-color: #0f172a;
-  color: #94a3b8;
+  background-color: #f8fafc;
+  color: #475569;
   padding: 14px 16px;
   font-weight: 700;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .bosp-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #1e293b;
-  color: #cbd5e1;
-}
-
-/* Baris Hover Efek */
-.bosp-table tr:hover td {
-  background-color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .school-name {
-  font-weight: 600;
-  color: #ffffff;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-/* Kolom khusus Ikon Matriks Bulan */
 .col-month {
   width: 35px;
   text-align: center;
-  padding: 14px 4px !important;
 }
 
-.bosp-table td:nth-child(n+6):nth-child(-n+17) {
-  text-align: center;
-  font-size: 16px;
-}
-
-/* Pewarnaan Status Ikon Matriks */
-.icon-green { color: #10b981; }  /* Centang Hijau */
-.icon-orange { color: #f59e0b; } /* Jam Pasir Oranye (Belum Lengkap) */
-
-.text-gray { color: #64748b; }
+.icon-green { color: #16a34a; font-size: 15px; } 
+.icon-red { color: #dc2626; font-size: 15px; }
 .text-center { text-align: center; }
-.font-bold { font-weight: 700; }
+.font-bold { font-weight: 700; color: #0f172a; }
