@@ -7,7 +7,7 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 
-// Mesin pemecah teks CSV tingkat tinggi yang anti-error terhadap jeda baris komputer
+// Mesin pemecah teks CSV tingkat tinggi yang anti-error (Sudah diperbaiki dari Typo)
 function dapatkanBarisCSV(teks) {
   let lines = [];
   let row = [""];
@@ -18,7 +18,7 @@ function dapatkanBarisCSV(teks) {
     let next = teks[i+1];
     
     if (c === '"') {
-      diDalamKutip = !diInsideQuotes;
+      diDalamKutip = !diDalamKutip; // TYPO SUDAH DIPERBAIKI DISINI LUR
     } else if (c === ',' && !diDalamKutip) {
       row.push("");
     } else if ((c === '\r' || c === '\n') && !diDalamKutip) {
